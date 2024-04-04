@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body {
+      background-color: black;
+      color: white;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .dots {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
+
+    .dot {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      border-radius: 50%;
+      background-color: white;
+      animation: move 5s linear infinite;
+    }
+
+    @keyframes move {
+      0% {
+        transform: translate(0, 0);
+      }
+
+      100% {
+        transform: translate(calc(100% + 10px), calc(100% + 10px));
+      }
+    }
+
+    button {
+      position: relative;
+      z-index: 1;
+      background-color: white;
+      color: black;
+      font-size: 20px;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #f0f0f0;
+    }
+
+    button:active {
+      background-color: #e0e0e0;
+    }
+
+    .title {
+      position: absolute;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 36px;
+      animation: moveTitle 5s linear infinite;
+    }
+
+    @keyframes moveTitle {
+      0% {
+       transform: translateX(-50%) translateY(-50%);
+      }
+
+      50% {
+        transform: translateX(-50%) translateY(50%);
+      }
+
+      100% {
+        transform: translateX(-50%) translateY(-50%);
+      }
+    }
+
+    .credits {
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+      color: white;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="dots">
+    <div class="dot" style="animation-delay: 0s;"></div>
+    <div class="dot" style="animation-delay: 1s;"></div>
+    <div class="dot" style="animation-delay: 2s;"></div>
+    <div class="dot" style="animation-delay: 3s;"></div>
+    <div class="dot" style="animation-delay: 4s;"></div>
+  </div>
+
+  <h1 class="title">History Flooder</h1>
+
+  <button onclick="floodHistory(50)">Click this to flood 50 links</button>
+
+  <div class="credits">
+    Created by <a href="https://CrueltySquad.github.io" target="_blank">CrueltySquad</a>
+  </div>
+
+  <script>
+    const dotCount = 80;
+
+    for (let i = 0; i < dotCount; i++) {
+      const dot = document.createElement('div');
+      dot.classList.add('dot');
+      dot.style.left = `${Math.random() * 100}%`;
+      dot.style.top = `${Math.random() * 100}%`;
+      dot.style.animationDelay = `${Math.random() * 5}s`;
+
+      document.querySelector('.dots').appendChild(dot);
+    }
+
+   function floodHistory(searchCount) {
+  const url = new URL(window.location.href);
+  const searchString = encodeURIComponent(url.pathname);
+  const baseUrl = `${url.origin}?q=${searchString}`;
+
+  for (let i = 0; i < searchCount; i++) {
+    history.pushState(null, null, baseUrl);
+    window.location.hash = `search-count-${i}`;}
+    }
+  </script>
+</body>
+</html>
